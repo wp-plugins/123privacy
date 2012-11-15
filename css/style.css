@@ -1,0 +1,37 @@
+/* Grüß Gott! */
+
+.alignleft {
+	float: left;
+	width: 48%;
+}
+.alignright {
+	float: right;
+	width: 48%
+}
+.bg-grey {
+	background-color: #DFDFDF;
+	font-weight: bold;
+}
+.grey {
+	color: slategrey;
+}
+.margin {
+	margin-left: 2px;
+}
+.underline {
+	text-decoration: underline;
+}
+.top {
+	vertical-align: top;
+}
+.width-350 {
+	width: 350px;
+}
+.width-150 {
+	width: 150px ;
+}
+.width-100 {
+	width: 100px;
+}
+
+/* Und Tjüß! ☃ */
