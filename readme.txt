@@ -3,8 +3,8 @@ Contributors: ezraverheijen
 Donate link: http://www.qualityinternetsolutions.nl/
 Tags: cookie, cookies, regelgeving, wet, cookiewet, law, cookielaw, eu, privacy, dutch, nederlands
 Requires at least: 3.1
-Tested up to: 3.4.2
-Stable tag: 1.0
+Tested up to: 3.5.1
+Stable tag: 1.1
 License: GPL v3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
 
@@ -66,6 +66,9 @@ Wettelijk moet u toestemming vragen voor alle niet functionele cookies. Hieronde
 4. Cookievrije social media knoppen
 
 == Changelog ==
+
+= 1.1 =
+* Update van de plugin i.v.m. extra functies binnen 123privacy.nl
 
 = 1.0 =
 * Initial release
