@@ -8,26 +8,26 @@ class Privacy_To_Wordpress {
 		$this -> add_menu();
 	}
 
-	// add all the functionalities of the plugin to the plugin admin menu
+	// Add all the functionalities of the plugin to the plugin admin menu
 	public function add_menu() {
 	
-		// adding 123privacy stuff to the admin menu
+		// Adding 123privacy stuff to the admin menu
 		add_action( 'admin_menu', array( $this, 'admin_add_menu' ) );
 		
-		// adding 123privacy stuff to the frontend right before the </body> tag
+		// Adding 123privacy stuff to the frontend right before the </body> tag
 		add_action( 'wp_footer', array( $this, 'body_add_data' ) );
 		
-		// adding 123privacy stuff to the front end inside the <head>
+		// Adding 123privacy stuff to the front end inside the <head>
 		add_action( 'wp_head', array( $this, 'head_add_data' ) );
 		
-		// adding AddThis stuff to the posts (only if selected by user in the form)
+		// Adding AddThis stuff to the posts (only if selected by user in the form)
 		if ( get_option( 'addthis_button_show' ) == 1 )
 			add_action( 'the_content', array( $this, 'addthis_button_onpost' ) );
 		
 	}
 	
 	public function admin_add_menu() {
-		// add options page to the admin menu
+		// Add options page to the admin menu
 		add_options_page( '123privacy', '123privacy', 'administrator', 'privacy_to_wordpress', array( $this, 'options' ) );	
 	}
 	
@@ -36,19 +36,19 @@ class Privacy_To_Wordpress {
 	 */
 	public function data_save_body() {
 	   	
-		// first validate that the content of the form comes from the location on the current site and not somewhere else
+		// First validate that the content of the form comes from the location on the current site and not somewhere else
 		if ( wp_verify_nonce( $_POST['form_content_validator'], 'validate_form_content' ) ) {
 			
-			// process content if valid
+			// Process content if valid
 			if ( isset( $_POST['body_submitter'] ) && ( ! empty( $_POST['body_submitter'] ) ) ) {
 				$option_name_body        = 'add_to_body';
 				$options_body['data'][0] = $_POST['body_data'];
 			
 				if ( get_option( $option_name_body ) ) {
-					// update user information if user information is present
+					// Update user information if user information is present
 					update_option( $option_name_body, $options_body );
 				} else {
-					// add user information if user information is empty
+					// Add user information if user information is empty
 					add_option( $option_name_body, $options_body );
 				}
 			}
@@ -61,12 +61,12 @@ class Privacy_To_Wordpress {
 	    */
 		$options_body = get_option( 'add_to_body' );
 		$output_body  = $options_body['data'][0];	
-		// filter out any inserted HTML-code for added security
+		// Filter out any inserted HTML-code for added security
 		$output_body  = wp_filter_nohtml_kses( $output_body );
 		
-		// code to output to the frontend
+		// Code to output to the frontend
 		$output_body  = "<!-- Deze website werkt met de kant-en-klare oplossing voor de cookiewet van 123privacy -->\n<div id='123privacy_footer'></div>\n<script type='text/javascript'>\n\tjQuery(document).ready(function(){\n\t\tjQuery(CookieControle(\"" . $output_body . "\"));\n\t});\n</script>\n<!-- www.123privacy.nl -->\n";
-		// echo the code
+		// Echo the code
 		echo stripslashes( $output_body );
 		
 	}
@@ -76,19 +76,19 @@ class Privacy_To_Wordpress {
 	 */
 	public function data_save_head() {
 	  
-		// first validate that the content of the form comes from the location on the current site and not somewhere else
+		// First validate that the content of the form comes from the location on the current site and not somewhere else
 		if ( wp_verify_nonce( $_POST['form_content_validator'], 'validate_form_content' ) ) {
 			
-			// process content if valid
+			// Process content if valid
 			if ( isset( $_POST['head_submitter'] ) && ( ! empty( $_POST['head_submitter'] ) ) ) {
 				$option_name_head        = 'add_to_head';
 				$options_head['data'][0] = $_POST['head_data'];
 			
 				if ( get_option($option_name_head) ) {
-					// update user information if user information is present
+					// Update user information if user information is present
 					update_option( $option_name_head, $options_head );
 				} else {
-					// add user information if user information is empty
+					// Add user information if user information is empty
 					add_option( $option_name_head, $options_head );
 				}
 			}
@@ -101,16 +101,16 @@ class Privacy_To_Wordpress {
 	    */
 		$options_head = get_option( 'add_to_head' );
 		$output_head  = $options_head['data'][0];
-		// filter out any inserted HTML-code for added security
+		// Filter out any inserted HTML-code for added security
 		$output_head  = wp_filter_nohtml_kses( $output_head );
 				
 		if ( ! isset( $output_head ) || empty( $output_head ) ) {
-			// dont't add anything to the frontend if no information was entered by user
+			// Do not add anything to the frontend if no information was entered by user
 			return false;
 		} else {
-			// code to output to the frontend
-			$output_head = "\n<!-- Deze website werkt met de kant-en-klare oplossing voor de cookiewet van 123privacy -->\n<script type='text/plain' privacy-type='tracking-accept'>\n\n  var _gaq = _gaq || [];\n  _gaq.push(['_setAccount', '" . $output_head . "']);\n  _gaq.push(['_trackPageview']);\n\n  (function() {\n    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;\n    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';\n    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);\n  })();\n\n</script>\n<!-- www.123privacy.nl -->\n\n";
-			// echo the code
+			// Code to output to the frontend
+			$output_head = "\n<!-- Deze website werkt met de kant-en-klare oplossing voor de cookiewet van 123privacy -->\n<script type='text/plain' privacy-type='cookiesAllowed'>\n\n  var _gaq = _gaq || [];\n  _gaq.push(['_setAccount', '" . $output_head . "']);\n  _gaq.push(['_trackPageview']);\n\n  (function() {\n    var ga = document.createElement('script'); ga.type = 'text/javascript'; ga.async = true;\n    ga.src = ('https:' == document.location.protocol ? 'https://ssl' : 'http://www') + '.google-analytics.com/ga.js';\n    var s = document.getElementsByTagName('script')[0]; s.parentNode.insertBefore(ga, s);\n  })();\n\n</script>\n<!-- www.123privacy.nl -->\n\n";
+			// Echo the code
 			echo stripslashes( $output_head );
 		}
 	}
@@ -142,28 +142,28 @@ class Privacy_To_Wordpress {
 					$output .= "<a class='addthis_button_google_plusone' g:plusone:size='medium'></a>\n";
 				}
 		
-				$output .= "</div>\n<script type='text/plain' privacy-type='tracking-accept' dis_src='http://s7.addthis.com/js/250/addthis_widget.js'></script>\n<!-- AddThis Button END -->\n\n";
+				$output .= "</div>\n<script type='text/plain' privacy-type='cookiesAllowed' dis_src='http://s7.addthis.com/js/250/addthis_widget.js'></script>\n<!-- AddThis Button END -->\n\n";
 				
-				// put buttons to the bottom of the posts - left or right depending on the users choice
+				// Put buttons to the bottom of the posts - left or right depending on the users choice
 				if ( get_option( 'addthis_button_vp' ) == 'bottom' ) {
-					$output = $post_content . "\n<!-- Deze website werkt met de kant-en-klare oplossing voor de cookiewet van 123privacy -->\n<div privacy-type='tracking-accept'><div class='addthis-" . get_option( 'addthis_button_hp' ) . "'><br />" . $output . "</div><div class='addthis-clear-both'></div><br /></div>\n<!-- www.123privacy.nl -->\n\n";
+					$output = $post_content . "\n<!-- Deze website werkt met de kant-en-klare oplossing voor de cookiewet van 123privacy -->\n<div privacy-type='cookiesAllowed'><div class='addthis-" . get_option( 'addthis_button_hp' ) . "'><br />" . $output . "</div><div class='addthis-clear-both'></div><br /></div>\n<!-- www.123privacy.nl -->\n\n";
 					
-				// put buttons at the top of the posts - left or right depending on the users choice
+				// Put buttons at the top of the posts - left or right depending on the users choice
 				} elseif ( get_option( 'addthis_button_vp' ) == 'top' ) {
-					$output = "\n<!-- Deze website werkt met de kant-en-klare oplossing voor de cookiewet van 123privacy -->\n<div privacy-type='tracking-accept'><div class='addthis-" . get_option( 'addthis_button_hp' ) . "'>" . $output . "</div><div class='addthis-clear-both'></div><br /></div>\n<!-- www.123privacy.nl -->\n\n" . $post_content;
+					$output = "\n<!-- Deze website werkt met de kant-en-klare oplossing voor de cookiewet van 123privacy -->\n<div privacy-type='cookiesAllowed'><div class='addthis-" . get_option( 'addthis_button_hp' ) . "'>" . $output . "</div><div class='addthis-clear-both'></div><br /></div>\n<!-- www.123privacy.nl -->\n\n" . $post_content;
 				}
 		}
-		// return values to be saved
+		// Return values to be saved
 		return $output;
 	}
 
 	public function options() {
 	
-		// saving 123privacy data for the <body> section
+		// Saving 123privacy data for the <body> section
 		privacy_to_wordpress::data_save_body();
 		$options_body = get_option( 'add_to_body' );
 		
-		// saving 123privacy data for the <head> section
+		// Saving 123privacy data for the <head> section
 		privacy_to_wordpress::data_save_head();
 		$options_head = get_option( 'add_to_head' );
 		
@@ -184,7 +184,7 @@ class Privacy_To_Wordpress {
 			
 						<div class="postbox">
 					
-							<h3>1. Voer hieronder uw eigen unieke cookie controlecode in</h3>
+							<h3>1. Voer hieronder uw eigen unieke code voor uw website in. Oftewel: uw serial/website_id</h3>
 							
 							<div class="inside">
 							
@@ -193,13 +193,8 @@ class Privacy_To_Wordpress {
 								<input type="submit" name="body_submitter" value="<?php esc_attr_e( 'Save Changes' ); ?>" class="button-primary" />
 								<input type="hidden" name="action_body" value="update" />
 				
-								<p><br /><strong>Opmerking</strong>: U hoeft hierboven enkel uw eigen unieke cookie controlecode in te voeren. De overige code die in de &lt;head&gt; en &lt;body&gt; moet komen, wordt automatsch door deze plugin ingeladen.</p>
-								<p><br />U kunt uw unieke cookie controlecode vinden in uw persoonlijke plugincode op <a href="https://123privacy.nl/profiel.aspx" rel="external">123privacy.nl</a>:</p>
-				
-								<?php
-								// get the url and echo the example image
-								echo '<div class="margin"><img src="' . plugins_url( 'img/voorbeeld.png' , dirname( __FILE__ ) ). '" /></div>';
-								?>
+								<p><br /><strong>Opmerking</strong>: U hoeft hierboven enkel uw eigen unieke serial/website_id in te voeren. De overige code die in de &lt;head&gt; en &lt;body&gt; moet komen, wordt automatsch door deze plugin ingeladen.</p>
+								<p>U kunt uw unieke serial/website_id vinden in <a title="Bekijk uw persoonlijke profiel op 123privacy.nl" href="https://123privacy.nl/profiel.aspx" target="_blank">uw persoonlijke profiel</a> op 123privacy.nl.</p>
 				
 							</div>
 							
@@ -217,7 +212,7 @@ class Privacy_To_Wordpress {
 								<input type="submit" name="head_submitter" value="<?php esc_attr_e( 'Save Changes' ); ?>" class="button-primary" />
 				
 								<p><br /><strong>Belangrijk</strong>: Indien u gebruik maakt van een andere plugin om de Google Analytics code aan uw website toe te voegen, dient u deze eerst te <span class"underline">deactiveren</span> en/of te <span class"underline">verwijderen</span>!</p>
-								<p><strong>Opmerking</strong>: Indien u geen gebruik maakt van Google Analytics, hoeft u hier uiteraard niets in te vullen.</p>
+								<p><strong>Opmerking</strong>: Indien u geen gebruik maakt van Google Analytics of liever een andere plugin gebruikt om Google Analytics in uw website te integreren, hoeft u hier uiteraard niets in te vullen.</p>
 						
 							</div>
 							
@@ -341,7 +336,7 @@ class Privacy_To_Wordpress {
 								Voorbeeld van de Twitter volg knop:</p>
 								
 								<?php
-								// get the url and echo the example image
+								// Get the url and echo the example image
 								echo '<img alt="Volg ons op Twitter!" src="' . plugins_url( 'img/twitterbird.gif' , dirname( __FILE__ ) ). '" />';
 								?>
 								
