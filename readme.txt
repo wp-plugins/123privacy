@@ -3,7 +3,7 @@ Contributors: ezraverheijen
 Donate link: http://www.qualityinternetsolutions.nl/
 Tags: cookie, cookies, regelgeving, wet, cookiewet, law, cookielaw, eu, privacy, dutch, nederlands
 Requires at least: 3.1
-Tested up to: 3.5.1
+Tested up to: 4.0
 Stable tag: 1.1
 License: GPL v3 or later
 License URI: http://www.gnu.org/licenses/gpl-3.0.html
