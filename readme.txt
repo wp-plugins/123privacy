@@ -12,6 +12,11 @@ Kant-en-klare cookiewet oplossing middels 123privacy.nl. Integreert de hosted so
 
 == Description ==
 
+= Algemene Mededeling =
+Let op: de service van 123privacy.nl wordt niet meer actief up-to-date gehouden.
+Hoewel de functionaliteit nog steeds prima zou moeten werken, kunnen hier geen garanties meer voor worden afgegeven.
+Deze plugin wordt daarom ook niet meer actief up-to-date gehouden.
+
 [123privacy](http://www.123privacy.nl/) biedt een kant-en-klare oplossing om uw website te laten voldoen aan de nieuwe cookiewet en dat helemaal gratis. Middels deze plugin kunt u deze functionaliteit eenvoudig aan uw WordPress website toevoegen.
 
 * Eenvoudig in gebruik
